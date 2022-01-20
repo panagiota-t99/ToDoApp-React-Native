@@ -15,6 +15,7 @@ import {
 import {getListItems} from '../services/userService';
 import AddComponent from './AddComponent';
 import DialogComponent from './DialogComponent';
+import ItemComponent from './ItemComponent';
 
 class ListItemsComponent extends Component {
   constructor(props) {
@@ -25,8 +26,6 @@ class ListItemsComponent extends Component {
       currentListId: this.props.route.params.listId,
       currentListName: this.props.route.params.listName,
     };
-
-    console.log(this.props.route.params.listId);
   }
 
   async componentDidMount() {
@@ -102,10 +101,12 @@ class ListItemsComponent extends Component {
               keyExtractor={({itemsid}) => itemsid}
               renderItem={({item}) => (
                 <View style={this.styles.listContainer}>
-                  <Text>Id: {item.itemsid}</Text>
-                  <Text>Item: {item.itemname}</Text>
-                  <Text>Date Created: {item.dateCreated}</Text>
-                  <Text>Date Modified: {item.dateModified}</Text>
+                  <ItemComponent
+                    id={item.itemsid}
+                    name={item.itemname}
+                    dateCreated={item.dateCreated}
+                    dateModified={item.dateModified}
+                  />
                   <View>
                     <DialogComponent
                       onUpdateSuccess={this.onUpdateSuccess}
@@ -115,6 +116,7 @@ class ListItemsComponent extends Component {
                       message1={'Enter the new item name.'}
                       message2="Are you sure you want to delete this item? You cannot undo this action."
                       id={item.itemsid}
+                      listname={this.state.currentListName}
                     />
                   </View>
                 </View>

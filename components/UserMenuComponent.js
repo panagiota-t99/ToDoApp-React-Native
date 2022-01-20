@@ -1,9 +1,8 @@
 import * as React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeComponent from './HomeComponent';
-import UserLogsComponent from './UserLogsComponent';
+import LogsComponent from './LogsComponent';
 import Logout from './LogoutComponent';
-import ListItemsComponent from './ListItemsComponent';
 
 const Drawer = createDrawerNavigator();
 
@@ -22,7 +21,7 @@ function MyDrawer() {
       />
       <Drawer.Screen
         name="UserLogs"
-        component={UserLogsComponent}
+        component={LogsComponent}
         options={{drawerLabel: 'Logs', title: 'Logs', unmountOnBlur: true}}
       />
       <Drawer.Screen
@@ -34,6 +33,6 @@ function MyDrawer() {
   );
 }
 
-export default function MenuComponent() {
+export default function UserMenuComponent() {
   return <MyDrawer />;
 }

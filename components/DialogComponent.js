@@ -33,47 +33,32 @@ class DialogComponent extends Component {
   handleUpdate = async () => {
     this.setState({visibleUpdate: false});
 
-    if (this.props.mode === 'list') {
-      if (this.state.name) {
-        try {
-          let res = await updateUserList(
+    if (this.state.name) {
+      try {
+        let res;
+        if (this.props.mode === 'list') {
+          res = await updateUserList(
             this.props.id,
             this.state.name,
             getCurrentDate(),
           );
-          if (res) {
-            this.props.onUpdateSuccess(
-              this.props.id,
-              this.state.name,
-              getCurrentDate(),
-            );
-          }
-        } catch (e) {
-          console.log(e);
+        } else {
+          res = await updateListItem(
+            this.props.id,
+            this.state.name,
+            getCurrentDate(),
+            this.props.listname,
+          );
         }
-      } else {
-        alert('Please enter a new value!');
-      }
-    } else {
-      if (this.state.name) {
-        try {
-          let res = await updateListItem(
+        if (res) {
+          this.props.onUpdateSuccess(
             this.props.id,
             this.state.name,
             getCurrentDate(),
           );
-          if (res) {
-            this.props.onUpdateSuccess(
-              this.props.id,
-              this.state.name,
-              getCurrentDate(),
-            );
-          }
-        } catch (e) {
-          console.log(e);
         }
-      } else {
-        alert('Please enter a new value!');
+      } catch (e) {
+        console.log(e);
       }
     }
   };
@@ -81,24 +66,18 @@ class DialogComponent extends Component {
   handleDelete = async () => {
     this.setState({visibleDelete: false});
 
-    if (this.props.mode === 'list') {
-      try {
-        let res = await deleteUserList(this.props.id);
-        if (res) {
-          this.props.onDeleteSuccess(this.props.id);
-        }
-      } catch (e) {
-        console.log(e);
+    try {
+      let res;
+      if (this.props.mode === 'list') {
+        res = await deleteUserList(this.props.id);
+      } else {
+        res = await deleteListItem(this.props.id);
       }
-    } else {
-      try {
-        let res = await deleteListItem(this.props.id);
-        if (res) {
-          this.props.onDeleteSuccess(this.props.id);
-        }
-      } catch (e) {
-        console.log(e);
+      if (res) {
+        this.props.onDeleteSuccess(this.props.id);
       }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -123,6 +102,7 @@ class DialogComponent extends Component {
             style={this.styles.icon}
           />
         </Pressable>
+
         <Dialog.Container visible={this.state.visibleUpdate}>
           <Dialog.Title>{this.props.title1}</Dialog.Title>
           <Dialog.Description>{this.props.message1}</Dialog.Description>

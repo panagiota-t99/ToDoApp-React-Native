@@ -1,24 +1,28 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
-import type {Node} from 'react';
-
 import {NavigationContainer} from '@react-navigation/native';
 import LoginComponent from './components/LoginComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import MenuComponent from './components/MenuComponent';
+import UserMenuComponent from './components/UserMenuComponent';
 
 import LogoutComponent from './components/LogoutComponent';
 import {createStackNavigator} from '@react-navigation/stack';
 import ListItemsComponent from './components/ListItemsComponent';
+import {Provider as StoreProvider} from 'react-redux';
+import configureStore from './storage/store';
+import {SafeAreaProvider} from 'react-native-safe-area-context/src/SafeAreaContext';
+import Loading from './helpers/Loading';
+import GlobalErrorHandler from './helpers/GlobalErrorHandler';
+import AdminMenuComponent from './components/AdminMenuComponent';
 
-const App = ({navigation}) => {
+const store = configureStore();
+
+const App = () => {
   const [token, setToken] = useState('');
-  var isLoggedIn = false;
 
   useEffect(() => {
     getToken().then(() => {
       console.log('app.js', token);
-      console.log('logged in ', isLoggedIn);
     });
   });
 
@@ -26,7 +30,6 @@ const App = ({navigation}) => {
     try {
       const value = await AsyncStorage.getItem('token');
       if (value !== null) {
-        isLoggedIn = true;
         setToken(value);
         //navigation.navigate('Menu');
       }
@@ -38,14 +41,21 @@ const App = ({navigation}) => {
   const Stack = createStackNavigator();
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Login" component={LoginComponent} />
-        <Stack.Screen name="Menu" component={MenuComponent} />
-        <Stack.Screen name="Logout" component={LogoutComponent} />
-        <Stack.Screen name="Items" component={ListItemsComponent} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <StoreProvider store={store}>
+        <Loading />
+        <GlobalErrorHandler />
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Login" component={LoginComponent} />
+            <Stack.Screen name="UserMenu" component={UserMenuComponent} />
+            <Stack.Screen name="AdminMenu" component={AdminMenuComponent} />
+            <Stack.Screen name="Logout" component={LogoutComponent} />
+            <Stack.Screen name="Items" component={ListItemsComponent} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </StoreProvider>
+    </SafeAreaProvider>
   );
 };
 

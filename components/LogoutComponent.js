@@ -9,7 +9,6 @@ const Logout = ({navigation}) => {
         text: 'Yes',
         onPress: () => {
           clearStorage().then(r => {
-            console.log('Yes Pressed');
             navigation.replace('Login');
           });
         },
@@ -17,7 +16,6 @@ const Logout = ({navigation}) => {
       {
         text: 'Cancel',
         onPress: () => navigation.navigate('Home'),
-        style: 'cancel',
       },
     ]);
   });

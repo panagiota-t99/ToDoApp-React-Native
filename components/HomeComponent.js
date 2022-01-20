@@ -18,6 +18,7 @@ import {
   formatPartialDate,
   getCurrentDate,
 } from '../services/dateService';
+import ItemComponent from './ItemComponent';
 
 class HomeComponent extends Component {
   constructor(props) {
@@ -142,10 +143,12 @@ class HomeComponent extends Component {
                     this.getSelectedList(item.listid, item.listname);
                   }}>
                   <View style={this.styles.listContainer}>
-                    <Text>Id: {item.listid}</Text>
-                    <Text>List: {item.listname}</Text>
-                    <Text>Date Created: {item.dateCreated}</Text>
-                    <Text>Date Modified: {item.dateModified}</Text>
+                    <ItemComponent
+                      id={item.listid}
+                      name={item.listname}
+                      dateCreated={item.dateCreated}
+                      dateModified={item.dateModified}
+                    />
                     <View>
                       <DialogComponent
                         onUpdateSuccess={this.onUpdateSuccess}
@@ -171,9 +174,9 @@ class HomeComponent extends Component {
   styles = StyleSheet.create({
     background: {backgroundColor: '#daddf1', flex: 1, flexDirection: 'column'},
     container: {
-      backgroundColor: 'white',
       flex: 1,
       flexDirection: 'column',
+      backgroundColor: 'white',
     },
     listContainer: {
       paddingVertical: 10,

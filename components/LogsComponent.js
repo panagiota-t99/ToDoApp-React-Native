@@ -10,39 +10,40 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getLogs} from '../services/userService';
 
 import {formatDateLogs} from '../services/dateService';
+import AdminLogsItem from './AdminLogsItem';
+import UserLogsItem from './UserLogsItem';
 
-class UserLogsComponent extends Component {
+class LogsComponent extends Component {
   constructor() {
     super();
 
     this.state = {
       data: [],
       isLoading: true,
+      isAdmin: false,
     };
   }
 
   async componentDidMount() {
     try {
       const roleId = await AsyncStorage.getItem('role');
-      if (roleId !== null) {
-        try {
-          const logs = await getLogs();
-          this.setState({data: formatDateLogs(logs)});
-          console.log(logs);
-        } catch (e) {
-          console.log(e);
-        } finally {
-          this.setState({isLoading: false});
-        }
+      if (roleId == '1') {
+        this.setState({isAdmin: true});
       }
+
+      const logs = await getLogs(roleId);
+      this.setState({data: formatDateLogs(logs)});
     } catch (e) {
-      alert(e);
+      console.log(e);
+    } finally {
+      this.setState({isLoading: false});
     }
   }
 
   render() {
     const data = this.state.data;
     const isLoading = this.state.isLoading;
+    const isAdmin = this.state.isAdmin;
 
     return (
       <View style={this.styles.container}>
@@ -54,10 +55,24 @@ class UserLogsComponent extends Component {
             keyExtractor={({logid}) => logid}
             renderItem={({item}) => (
               <View style={this.styles.listContainer}>
-                <Text style={this.styles.message}>Message: {item.message}</Text>
-                <Text>Id: {item.logid}</Text>
-                <Text>Action: {item.action}</Text>
-                <Text>Date Created: {item.dateCreated}</Text>
+                {isAdmin ? (
+                  <AdminLogsItem
+                    message={item.message}
+                    firstname={item.firstname}
+                    lastname={item.lastname}
+                    userid={item.userid}
+                    logid={item.logid}
+                    action={item.action}
+                    dateCreated={item.dateCreated}
+                  />
+                ) : (
+                  <UserLogsItem
+                    message={item.message}
+                    logid={item.logid}
+                    action={item.action}
+                    dateCreated={item.dateCreated}
+                  />
+                )}
               </View>
             )}
           />
@@ -78,11 +93,7 @@ class UserLogsComponent extends Component {
       borderBottomColor: '#daddf1',
       borderBottomWidth: 1,
     },
-    message: {
-      fontSize: 16,
-      color: '#3F51B5',
-    },
   });
 }
 
-export default UserLogsComponent;
+export default LogsComponent;

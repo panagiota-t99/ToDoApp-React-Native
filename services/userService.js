@@ -91,9 +91,14 @@ async function deleteListItem(itemsid) {
   }
 }
 
-async function updateListItem(itemsid, itemname, dateModified) {
+async function updateListItem(itemsid, itemname, dateModified, listname) {
   try {
-    return await putRequest('lists/item', {itemsid, itemname, dateModified});
+    return await putRequest('lists/item', {
+      itemsid,
+      itemname,
+      dateModified,
+      listname,
+    });
   } catch (e) {
     throw e;
   }

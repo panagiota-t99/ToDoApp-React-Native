@@ -9,58 +9,66 @@ import {
 } from 'react-native';
 import {getRole, login} from '../services/userService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {changeLoading, errorHandling} from '../storage/actions/actions';
 
 const LoginComponent = ({navigation}) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getToken();
+    getLoggedIn();
   });
 
-  const getToken = async () => {
+  const getLoggedIn = async () => {
     try {
-      const value = await AsyncStorage.getItem('token');
+      const value = await AsyncStorage.getItem('role');
       if (value !== null) {
-        navigation.replace('Menu');
+        if (value == 1) {
+          navigation.replace('AdminMenu');
+        } else {
+          navigation.replace('UserMenu');
+        }
       }
     } catch (e) {
       alert(e);
     }
   };
 
+  const showLoading = loading => {
+    dispatch(changeLoading(loading));
+  };
+
   async function getLoginData() {
     if (username && password) {
       try {
+        showLoading(true);
+
         const result = await login(username, password);
         if (result.accessToken) {
-          try {
-            await AsyncStorage.setItem('token', result.accessToken);
-          } catch (e) {
-            alert(e);
-          }
+          await AsyncStorage.setItem('token', result.accessToken);
 
-          try {
-            const role = await getRole();
-            if (role) {
-              try {
-                AsyncStorage.setItem('role', role[0].roleid.toString());
-                if (role[0].roleid === 2) {
-                  navigation.replace('Menu');
-                }
-              } catch (e) {}
+          const role = await getRole();
+          if (role) {
+            await AsyncStorage.setItem('role', role[0].roleid.toString());
+            if (role[0].roleid === 1) {
+              navigation.replace('AdminMenu');
+            } else {
+              navigation.replace('UserMenu');
             }
-          } catch (e) {
-            console.log(e);
           }
-        } else {
-          alert(result.message);
         }
       } catch (e) {
-        alert(e);
+        dispatch(errorHandling({visible: true, message: e.message}));
+      } finally {
+        showLoading(false);
       }
     } else {
-      alert('Please fill in the form!');
+      dispatch(
+        errorHandling({visible: true, message: 'Please fill in the form!'}),
+      );
     }
   }
 
@@ -101,7 +109,7 @@ const LoginComponent = ({navigation}) => {
             <Pressable
               style={{paddingTop: 5}}
               onPress={() => {
-                alert('hi');
+                alert('register'); //todo register
               }}>
               <Text style={{color: '#3F51B5'}}>Create an account</Text>
             </Pressable>

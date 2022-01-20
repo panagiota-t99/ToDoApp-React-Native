@@ -2,35 +2,31 @@ import * as React from 'react';
 import {Image, Pressable, StyleSheet, TextInput, View} from 'react-native';
 import {useState} from 'react';
 import {addItemToList, addUserList} from '../services/userService';
+import {useDispatch} from 'react-redux';
+import {errorHandling} from '../storage/actions/actions';
 
 const AddComponent = props => {
   const [newAdd, setNewAdd] = useState('');
+  const dispatch = useDispatch();
 
   async function onAdd() {
     if (newAdd) {
-      if (props.mode === 'list') {
-        try {
-          let res = await addUserList(newAdd);
-          if (res) {
-            props.onAdd(newAdd, res.insertId);
-            setNewAdd('');
-            alert('List added');
-          }
-        } catch (e) {
-          console.log(e);
+      let res;
+      try {
+        if (props.mode === 'list') {
+          res = await addUserList(newAdd);
+        } else {
+          res = await addItemToList(props.listId, props.listName, newAdd);
         }
-      } else {
-        try {
-          let res = await addItemToList(props.listId, props.listName, newAdd);
-          if (res) {
-            props.onAdd(newAdd, res.insertId);
-            setNewAdd('');
-            alert('Item added');
-          }
-        } catch (e) {}
-      }
+        if (res) {
+          props.onAdd(newAdd, res.insertId);
+          setNewAdd('');
+        }
+      } catch (e) {}
     } else {
-      alert('Please fill in the field.');
+      dispatch(
+        errorHandling({visible: true, message: 'Please fill in the field.'}),
+      );
     }
   }
 

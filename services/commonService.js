@@ -27,12 +27,7 @@ async function getRequest(endpoint = '') {
   });
   return await response.json();
 }
-/**
- *
- * @param endpoint
- * @param data
- * @returns {Promise<any>}
- */
+
 async function postRequest(endpoint = '', data = {}) {
   console.log('fetch post');
   const token = await getToken();
@@ -45,7 +40,12 @@ async function postRequest(endpoint = '', data = {}) {
     },
     body: JSON.stringify(data),
   });
-  return await response.json();
+  if (response.status === 200) {
+    return await response.json();
+  }
+  if (response.status >= 400) {
+    throw await response.json();
+  }
 }
 
 async function putRequest(endpoint = '', data = {}) {
