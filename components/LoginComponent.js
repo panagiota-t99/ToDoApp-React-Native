@@ -53,6 +53,7 @@ const LoginComponent = ({navigation}) => {
           const role = await getRole();
           if (role) {
             await AsyncStorage.setItem('role', role[0].roleid.toString());
+            await AsyncStorage.setItem('id', role[0].userid.toString());
             if (role[0].roleid === 1) {
               navigation.replace('AdminMenu');
             } else {
@@ -91,6 +92,7 @@ const LoginComponent = ({navigation}) => {
             />
             <TextInput
               style={styles.input}
+              secureTextEntry={true}
               placeholder="Password *"
               onChangeText={value => {
                 setPassword(value);
@@ -109,7 +111,7 @@ const LoginComponent = ({navigation}) => {
             <Pressable
               style={{paddingTop: 5}}
               onPress={() => {
-                alert('register'); //todo register
+                navigation.navigate('Register');
               }}>
               <Text style={{color: '#3F51B5'}}>Create an account</Text>
             </Pressable>

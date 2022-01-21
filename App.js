@@ -14,6 +14,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context/src/SafeAreaConte
 import Loading from './helpers/Loading';
 import GlobalErrorHandler from './helpers/GlobalErrorHandler';
 import AdminMenuComponent from './components/AdminMenuComponent';
+import RegisterComponent from './components/RegisterComponent';
 
 const store = configureStore();
 
@@ -48,6 +49,7 @@ const App = () => {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name="Login" component={LoginComponent} />
+            <Stack.Screen name="Register" component={RegisterComponent} />
             <Stack.Screen name="UserMenu" component={UserMenuComponent} />
             <Stack.Screen name="AdminMenu" component={AdminMenuComponent} />
             <Stack.Screen name="Logout" component={LogoutComponent} />

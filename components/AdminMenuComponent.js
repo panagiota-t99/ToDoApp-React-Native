@@ -50,6 +50,7 @@ function MyDrawer() {
         options={{
           drawerLabel: 'Users',
           title: 'Users',
+          unmountOnBlur: true,
         }}
       />
       <Drawer.Screen

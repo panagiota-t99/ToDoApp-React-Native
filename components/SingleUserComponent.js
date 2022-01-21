@@ -1,12 +1,31 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {deleteUser} from '../services/userService';
 import Dialog from 'react-native-dialog';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SingleUserComponent = props => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    check().then(res => {
+      if (props.userid == res) {
+        setDisabled(true);
+      }
+    });
+  }, [props.userid]);
+
+  const check = async () => {
+    try {
+      const id = await AsyncStorage.getItem('id');
+      return id;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleDelete = async id => {
     try {
@@ -41,9 +60,20 @@ const SingleUserComponent = props => {
           }>
           <Image source={require('../assets/edit.png')} style={styles.icon} />
         </Pressable>
-        <Pressable onPress={() => setVisible(true)}>
-          <Image source={require('../assets/trash.png')} style={styles.icon} />
-        </Pressable>
+
+        {disabled ? (
+          <Image
+            source={require('../assets/disabled_trash.png')}
+            style={styles.icon}
+          />
+        ) : (
+          <Pressable onPress={() => setVisible(true)}>
+            <Image
+              source={require('../assets/trash.png')}
+              style={styles.icon}
+            />
+          </Pressable>
+        )}
 
         <Dialog.Container visible={visible}>
           <Dialog.Title>Delete User</Dialog.Title>

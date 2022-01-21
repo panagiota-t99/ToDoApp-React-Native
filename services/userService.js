@@ -19,6 +19,20 @@ async function login(username, password) {
   }
 }
 
+async function register(fname, lname, email, username, password) {
+  try {
+    return await postRequest('users/register', {
+      fname,
+      lname,
+      email,
+      username,
+      password,
+    });
+  } catch (e) {
+    throw e;
+  }
+}
+
 async function getRole() {
   try {
     return await getRequest('users/role');
@@ -157,4 +171,5 @@ module.exports = {
   getUsers,
   updateUserDetails,
   deleteUser,
+  register,
 };
