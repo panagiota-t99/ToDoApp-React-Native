@@ -3,6 +3,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeComponent from './HomeComponent';
 import LogsComponent from './LogsComponent';
 import Logout from './LogoutComponent';
+import {ListAndItemNavigator} from './AdminMenuComponent';
 
 const Drawer = createDrawerNavigator();
 
@@ -16,8 +17,8 @@ function MyDrawer() {
       }}>
       <Drawer.Screen
         name="Home"
-        component={HomeComponent}
-        options={{drawerLabel: 'Home'}}
+        component={ListAndItemNavigator}
+        options={{drawerLabel: 'Home', unmountOnBlur: true}}
       />
       <Drawer.Screen
         name="UserLogs"

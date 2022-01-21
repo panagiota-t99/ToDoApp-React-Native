@@ -83,9 +83,6 @@ class ListItemsComponent extends Component {
     return (
       <View style={this.styles.background}>
         <View style={this.styles.container}>
-          <Text style={this.styles.header}>
-            List: {this.state.currentListName}
-          </Text>
           <AddComponent
             onAdd={this.onAddItem}
             placeholder="Create a new item"
@@ -93,6 +90,9 @@ class ListItemsComponent extends Component {
             listId={this.state.currentListId}
             listName={this.state.currentListName}
           />
+          <Text style={this.styles.header}>
+            Items of list: {this.state.currentListName}
+          </Text>
           {isLoading ? (
             <ActivityIndicator />
           ) : (
@@ -129,7 +129,7 @@ class ListItemsComponent extends Component {
   }
 
   styles = StyleSheet.create({
-    background: {backgroundColor: '#daddf1', flex: 1, flexDirection: 'column'},
+    background: {flex: 1, flexDirection: 'column'},
     container: {
       backgroundColor: 'white',
       flex: 1,
@@ -143,10 +143,13 @@ class ListItemsComponent extends Component {
     },
     header: {
       paddingLeft: 10,
-      paddingVertical: 15,
-      fontSize: 18,
+      paddingVertical: 10,
+      fontSize: 16,
       color: 'black',
-      height: 50,
+      borderBottomWidth: 1,
+      borderBottomColor: '#daddf1',
+
+      // height: 50,
     },
   });
 }

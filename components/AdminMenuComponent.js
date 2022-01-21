@@ -4,8 +4,32 @@ import HomeComponent from './HomeComponent';
 import LogsComponent from './LogsComponent';
 import Logout from './LogoutComponent';
 import UsersComponent from './UsersComponent';
+import {createStackNavigator} from '@react-navigation/stack';
+import EditUserComponent from './EditUserComponent';
+import SingleUserComponent from './SingleUserComponent';
+import ListItemsComponent from './ListItemsComponent';
 
 const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+function UserNavigator() {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Users" component={UsersComponent} />
+      <Stack.Screen name="EditUser" component={EditUserComponent} />
+      <Stack.Screen name="SingleUser" component={SingleUserComponent} />
+    </Stack.Navigator>
+  );
+}
+
+export function ListAndItemNavigator() {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Lists" component={HomeComponent} />
+      <Stack.Screen name="Items" component={ListItemsComponent} />
+    </Stack.Navigator>
+  );
+}
 
 function MyDrawer() {
   return (
@@ -17,13 +41,16 @@ function MyDrawer() {
       }}>
       <Drawer.Screen
         name="Home"
-        component={HomeComponent}
-        options={{drawerLabel: 'Home'}}
+        component={ListAndItemNavigator}
+        options={{drawerLabel: 'Home', unmountOnBlur: true}}
       />
       <Drawer.Screen
-        name="Users"
-        component={UsersComponent}
-        options={{drawerLabel: 'Users'}}
+        name="UserNavigator"
+        component={UserNavigator}
+        options={{
+          drawerLabel: 'Users',
+          title: 'Users',
+        }}
       />
       <Drawer.Screen
         name="UserLogs"

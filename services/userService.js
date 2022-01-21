@@ -51,6 +51,14 @@ async function getListItems(listid) {
   }
 }
 
+async function getUsers() {
+  try {
+    return await getRequest('users/all');
+  } catch (e) {
+    throw e;
+  }
+}
+
 async function deleteUserList(listid) {
   try {
     return await deleteRequest('lists/list/' + listid);
@@ -91,6 +99,14 @@ async function deleteListItem(itemsid) {
   }
 }
 
+async function deleteUser(id) {
+  try {
+    return await deleteRequest('users/delete/' + id);
+  } catch (e) {
+    throw e;
+  }
+}
+
 async function updateListItem(itemsid, itemname, dateModified, listname) {
   try {
     return await putRequest('lists/item', {
@@ -98,6 +114,28 @@ async function updateListItem(itemsid, itemname, dateModified, listname) {
       itemname,
       dateModified,
       listname,
+    });
+  } catch (e) {
+    throw e;
+  }
+}
+
+async function updateUserDetails(
+  firstname,
+  lastname,
+  email,
+  username,
+  roleid,
+  userid,
+) {
+  try {
+    return await putRequest('users/update', {
+      firstname,
+      lastname,
+      email,
+      username,
+      roleid,
+      userid,
     });
   } catch (e) {
     throw e;
@@ -116,4 +154,7 @@ module.exports = {
   addItemToList,
   deleteListItem,
   updateListItem,
+  getUsers,
+  updateUserDetails,
+  deleteUser,
 };

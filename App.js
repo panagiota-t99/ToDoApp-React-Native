@@ -51,7 +51,6 @@ const App = () => {
             <Stack.Screen name="UserMenu" component={UserMenuComponent} />
             <Stack.Screen name="AdminMenu" component={AdminMenuComponent} />
             <Stack.Screen name="Logout" component={LogoutComponent} />
-            <Stack.Screen name="Items" component={ListItemsComponent} />
           </Stack.Navigator>
         </NavigationContainer>
       </StoreProvider>
