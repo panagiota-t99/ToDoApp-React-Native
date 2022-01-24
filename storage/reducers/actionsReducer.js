@@ -1,8 +1,9 @@
-import {ERROR_HANDLER, LOADING_CHANGE} from '../constants';
+import {DRAWER_ITEM, ERROR_HANDLER, LOADING_CHANGE} from '../constants';
 
 const initialState = {
   loading: false,
   errorHandler: {visible: false, message: ''},
+  drawerItem: 'Home',
 };
 
 const actionsReducer = (state = initialState, action) => {
@@ -12,6 +13,9 @@ const actionsReducer = (state = initialState, action) => {
     }
     case ERROR_HANDLER: {
       return {...state, errorHandler: action.payload};
+    }
+    case DRAWER_ITEM: {
+      return {...state, drawerItem: action.payload};
     }
     default:
       return state;

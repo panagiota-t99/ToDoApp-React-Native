@@ -10,7 +10,13 @@ import {
 import {getRole, login} from '../services/userService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
-import {changeLoading, errorHandling} from '../storage/actions/actions';
+import {
+  changeLoading,
+  errorHandling,
+  setDrawerItem,
+} from '../storage/actions/actions';
+
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 const LoginComponent = ({navigation}) => {
   const [username, setUsername] = useState();
@@ -26,11 +32,7 @@ const LoginComponent = ({navigation}) => {
     try {
       const value = await AsyncStorage.getItem('role');
       if (value !== null) {
-        if (value == 1) {
-          navigation.replace('AdminMenu');
-        } else {
-          navigation.replace('UserMenu');
-        }
+        navigation.replace('Menu', {role: value});
       }
     } catch (e) {
       alert(e);
@@ -54,11 +56,7 @@ const LoginComponent = ({navigation}) => {
           if (role) {
             await AsyncStorage.setItem('role', role[0].roleid.toString());
             await AsyncStorage.setItem('id', role[0].userid.toString());
-            if (role[0].roleid === 1) {
-              navigation.replace('AdminMenu');
-            } else {
-              navigation.replace('UserMenu');
-            }
+            navigation.replace('Menu', {role: role[0].roleid});
           }
         }
       } catch (e) {

@@ -3,18 +3,16 @@ import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import LoginComponent from './components/LoginComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import UserMenuComponent from './components/UserMenuComponent';
-
-import LogoutComponent from './components/LogoutComponent';
 import {createStackNavigator} from '@react-navigation/stack';
-import ListItemsComponent from './components/ListItemsComponent';
 import {Provider as StoreProvider} from 'react-redux';
+import {Provider as PaperProvider} from 'react-native-paper';
+
 import configureStore from './storage/store';
 import {SafeAreaProvider} from 'react-native-safe-area-context/src/SafeAreaContext';
 import Loading from './helpers/Loading';
 import GlobalErrorHandler from './helpers/GlobalErrorHandler';
-import AdminMenuComponent from './components/AdminMenuComponent';
 import RegisterComponent from './components/RegisterComponent';
+import MenuComponent from './components/MenuComponent';
 
 const store = configureStore();
 
@@ -44,17 +42,17 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <StoreProvider store={store}>
-        <Loading />
-        <GlobalErrorHandler />
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Login" component={LoginComponent} />
-            <Stack.Screen name="Register" component={RegisterComponent} />
-            <Stack.Screen name="UserMenu" component={UserMenuComponent} />
-            <Stack.Screen name="AdminMenu" component={AdminMenuComponent} />
-            <Stack.Screen name="Logout" component={LogoutComponent} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <PaperProvider>
+          <Loading />
+          <GlobalErrorHandler />
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{headerShown: false}}>
+              <Stack.Screen name="Login" component={LoginComponent} />
+              <Stack.Screen name="Register" component={RegisterComponent} />
+              <Stack.Screen name="Menu" component={MenuComponent} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PaperProvider>
       </StoreProvider>
     </SafeAreaProvider>
   );

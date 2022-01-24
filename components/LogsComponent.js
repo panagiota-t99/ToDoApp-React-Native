@@ -12,6 +12,7 @@ import {getLogs} from '../services/userService';
 import {formatDateLogs} from '../services/dateService';
 import AdminLogsItem from './AdminLogsItem';
 import UserLogsItem from './UserLogsItem';
+import {SharedHeaderBar} from '../shared/SharedHeaderBar';
 
 class LogsComponent extends Component {
   constructor() {
@@ -47,8 +48,13 @@ class LogsComponent extends Component {
 
     return (
       <View style={this.styles.container}>
+        <SharedHeaderBar title="Logs" hasAdd={false} />
         {isLoading ? (
           <ActivityIndicator />
+        ) : data.length === 0 ? (
+          <Text style={{paddingHorizontal: 10, paddingVertical: 10}}>
+            There are currently no logs.
+          </Text>
         ) : (
           <FlatList
             data={data}

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
 import {getUsers} from '../services/userService';
 import SingleUserComponent from './SingleUserComponent';
+import {SharedHeaderBar} from '../shared/SharedHeaderBar';
 
 class UsersComponent extends Component {
   constructor(props) {
@@ -54,6 +55,7 @@ class UsersComponent extends Component {
 
     return (
       <View style={this.styles.background}>
+        <SharedHeaderBar title="Users" hasAdd={false} />
         <View style={this.styles.container}>
           {isLoading ? (
             <ActivityIndicator />

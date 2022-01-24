@@ -19,6 +19,7 @@ import {
   getCurrentDate,
 } from '../services/dateService';
 import ItemComponent from './ItemComponent';
+import {SharedHeaderBar} from '../shared/SharedHeaderBar';
 
 class HomeComponent extends Component {
   constructor(props) {
@@ -123,14 +124,18 @@ class HomeComponent extends Component {
 
     return (
       <View style={this.styles.background}>
+        <SharedHeaderBar
+          title="Home"
+          hasAdd={true}
+          onAddSuccess={this.onAddList}
+        />
         <View style={this.styles.container}>
-          <AddComponent
-            onAdd={this.onAddList}
-            placeholder="Create a new list"
-            mode="list"
-          />
           {isLoading ? (
             <ActivityIndicator />
+          ) : data.length === 0 ? (
+            <Text style={{paddingHorizontal: 10, paddingVertical: 10}}>
+              There are currently no lists.
+            </Text>
           ) : (
             <FlatList
               data={data}

@@ -16,6 +16,8 @@ import {getListItems} from '../services/userService';
 import AddComponent from './AddComponent';
 import DialogComponent from './DialogComponent';
 import ItemComponent from './ItemComponent';
+import {SharedHeaderBar} from '../shared/SharedHeaderBar';
+import {SharedBackHeaderBar} from '../shared/SharedBackHeaderBar';
 
 class ListItemsComponent extends Component {
   constructor(props) {
@@ -81,8 +83,9 @@ class ListItemsComponent extends Component {
     const isLoading = this.state.isLoading;
 
     return (
-      <View style={this.styles.background}>
-        <View style={this.styles.container}>
+      <View>
+        <SharedBackHeaderBar color="white" title="Items" titleColor="black" />
+        <View>
           <AddComponent
             onAdd={this.onAddItem}
             placeholder="Create a new item"
@@ -95,6 +98,10 @@ class ListItemsComponent extends Component {
           </Text>
           {isLoading ? (
             <ActivityIndicator />
+          ) : data.length === 0 ? (
+            <Text style={{paddingHorizontal: 10, paddingVertical: 10}}>
+              There are currently no items in this list.
+            </Text>
           ) : (
             <FlatList
               data={data}

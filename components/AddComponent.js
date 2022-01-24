@@ -1,13 +1,25 @@
 import * as React from 'react';
-import {Image, Pressable, StyleSheet, TextInput, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import {useState} from 'react';
 import {addItemToList, addUserList} from '../services/userService';
 import {useDispatch} from 'react-redux';
 import {errorHandling} from '../storage/actions/actions';
+import {Dialog, Portal} from 'react-native-paper';
 
 const AddComponent = props => {
   const [newAdd, setNewAdd] = useState('');
+  const [visible, setVisible] = useState(false);
+
   const dispatch = useDispatch();
+
+  const hideDialog = () => setVisible(false);
 
   async function onAdd() {
     if (newAdd) {
@@ -31,20 +43,31 @@ const AddComponent = props => {
   }
 
   return (
-    <View style={styles.preHeader}>
-      <TextInput
-        style={styles.input}
-        placeholder={props.placeholder}
-        placeholderTextColor="#9196d4"
-        onChangeText={value => {
-          setNewAdd(value);
-        }}
-        value={newAdd}
-      />
-      <Pressable style={styles.addBtn} onPress={onAdd}>
-        <Image source={require('../assets/add.png')} />
-      </Pressable>
-    </View>
+    <Portal>
+      <Dialog visible={visible} onDismiss={hideDialog}>
+        <Dialog.Title>Create a new list</Dialog.Title>
+        <Dialog.Content>
+          <TextInput
+            placeholder={'Start typing'}
+            onChangeText={value => setNewAdd(value)}
+          />
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Pressable
+            onPress={() => {
+              hideDialog();
+            }}>
+            <Text style={styles.btn}>Cancel</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              onAdd().then(() => setVisible(false));
+            }}>
+            <Text style={styles.btn}>Add</Text>
+          </Pressable>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal>
   );
 };
 

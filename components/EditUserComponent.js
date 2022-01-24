@@ -3,6 +3,7 @@ import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Picker} from '@react-native-picker/picker';
 import {updateUserDetails} from '../services/userService';
+import {SharedBackHeaderBar} from '../shared/SharedBackHeaderBar';
 
 const EditUserComponent = props => {
   const navigation = useNavigation();
@@ -28,7 +29,7 @@ const EditUserComponent = props => {
         roleid,
         userid,
       );
-      navigation.replace('Users');
+      navigation.navigate('Users');
     } catch (e) {
       console.log(e);
     }
@@ -36,6 +37,7 @@ const EditUserComponent = props => {
 
   return (
     <View>
+      <SharedBackHeaderBar title="User Information" />
       <Text style={styles.header}>Edit user information</Text>
 
       <Text style={styles.label}>First Name</Text>

@@ -73,6 +73,14 @@ async function getUsers() {
   }
 }
 
+async function getUsername() {
+  try {
+    return await getRequest('users/username');
+  } catch (e) {
+    throw e;
+  }
+}
+
 async function deleteUserList(listid) {
   try {
     return await deleteRequest('lists/list/' + listid);
@@ -172,4 +180,5 @@ module.exports = {
   updateUserDetails,
   deleteUser,
   register,
+  getUsername,
 };

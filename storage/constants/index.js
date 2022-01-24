@@ -1,2 +1,3 @@
 export const LOADING_CHANGE = 'LOADING_CHANGE';
 export const ERROR_HANDLER = 'ERROR_HANDLER';
+export const DRAWER_ITEM = 'DRAWER_ITEM';
