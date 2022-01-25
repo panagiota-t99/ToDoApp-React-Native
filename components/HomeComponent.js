@@ -12,7 +12,6 @@ import {
 
 import {getUserLists} from '../services/userService';
 import DialogComponent from './DialogComponent';
-import AddComponent from './AddComponent';
 import {
   formatDate,
   formatPartialDate,
@@ -22,6 +21,7 @@ import ItemComponent from './ItemComponent';
 import {SharedHeaderBar} from '../shared/SharedHeaderBar';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import ListItemsComponent from './ListItemsComponent';
+import {setDrawerItem} from '../storage/actions/actions';
 
 class HomeComponent extends Component {
   constructor(props) {
@@ -53,10 +53,6 @@ class HomeComponent extends Component {
     } catch (e) {
       throw e;
     }
-  }
-
-  getSelectedList(id, name) {
-    this.props.navigation.navigate('Items', {listId: id, listName: name});
   }
 
   onUpdateSuccess = (listId, newName, dateModified) => {
@@ -154,9 +150,7 @@ class HomeComponent extends Component {
                       selectedListName: item.listname,
                     });
                     this.RBSheet.open();
-                  }}
-                  //this.getSelectedList(item.listid, item.listname);
-                >
+                  }}>
                   <View style={this.styles.listContainer}>
                     <ItemComponent
                       id={item.listid}

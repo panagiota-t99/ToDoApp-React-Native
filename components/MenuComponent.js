@@ -3,19 +3,10 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItem,
-  DrawerItemList,
 } from '@react-navigation/drawer';
 import HomeComponent from './HomeComponent';
 import LogsComponent from './LogsComponent';
-import {
-  Alert,
-  FlatList,
-  Text,
-  View,
-  StyleSheet,
-  TouchableHighlight,
-  Image,
-} from 'react-native';
+import {Alert, Text, View} from 'react-native';
 import ListItemsComponent from './ListItemsComponent';
 import {useNavigation} from '@react-navigation/native';
 import EditUserComponent from './EditUserComponent';

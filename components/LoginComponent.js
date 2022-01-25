@@ -30,6 +30,7 @@ const LoginComponent = ({navigation}) => {
     try {
       const value = await AsyncStorage.getItem('role');
       if (value !== null) {
+        dispatch(setDrawerItem('Home'));
         navigation.replace('Menu', {role: value});
       }
     } catch (e) {
@@ -54,6 +55,7 @@ const LoginComponent = ({navigation}) => {
           if (role) {
             await AsyncStorage.setItem('role', role[0].roleid.toString());
             await AsyncStorage.setItem('id', role[0].userid.toString());
+            dispatch(setDrawerItem('Home'));
             navigation.replace('Menu', {role: role[0].roleid});
           }
         }

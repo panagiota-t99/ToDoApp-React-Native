@@ -10,6 +10,9 @@ import {
 import {getRole, register} from '../services/userService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import {Checkbox, HelperText, Snackbar} from 'react-native-paper';
+import {useDispatch} from 'react-redux';
+import {setDrawerItem} from '../storage/actions/actions';
 
 const RegisterComponent = () => {
   //#region state declerations
@@ -19,17 +22,23 @@ const RegisterComponent = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
 
   const [touchedFN, setTouchedFN] = useState(false);
   const [touchedLN, setTouchedLN] = useState(false);
   const [touchedE, setTouchedE] = useState(false);
   const [touchedU, setTouchedU] = useState(false);
   const [touchedP, setTouchedP] = useState(false);
+  const [touchedCP, setTouchedCP] = useState(false);
 
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   //#endregion
+
+  const dispatch = useDispatch();
 
   const registerUser = async () => {
     try {
@@ -40,8 +49,8 @@ const RegisterComponent = () => {
         username,
         password,
       );
+      setVisible(true);
       await AsyncStorage.setItem('token', result.accessToken);
-
       const role = await getRole();
       await AsyncStorage.setItem('role', role[0].roleid.toString());
       await AsyncStorage.setItem('id', role[0].userid.toString());
@@ -60,13 +69,17 @@ const RegisterComponent = () => {
       username &&
       password &&
       isEmail &&
-      isPassword
+      isPassword &&
+      password === confirmPassword &&
+      checked
     ) {
       registerUser().then(res => {
-        if (res === 1) {
-          navigation.replace('AdminMenu');
-        } else if (res === 2) {
-          navigation.replace('UserMenu');
+        if (res != 0) {
+          dispatch(setDrawerItem('Home'));
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'Menu', params: {role: res}}],
+          });
         }
       });
     } else {
@@ -170,7 +183,6 @@ const RegisterComponent = () => {
               onEndEditing={() => {
                 setTouchedP(true);
               }}
-              //value={password}
             />
             {!password && touchedP ? (
               <ErrorDisplay message="Password is required" />
@@ -179,9 +191,56 @@ const RegisterComponent = () => {
             ) : (
               <ErrorDisplay message="" />
             )}
+
+            <TextInput
+              style={styles.input}
+              placeholder="Confirm Password *"
+              secureTextEntry={true}
+              onChangeText={value => {
+                setConfirmPassword(value);
+                setTouchedCP(true);
+              }}
+            />
+            {!confirmPassword && touchedCP ? (
+              <ErrorDisplay message="Please type again your password" />
+            ) : !(
+                password === confirmPassword &&
+                password &&
+                touchedP &&
+                touchedCP
+              ) && touchedCP ? (
+              <ErrorDisplay message="The passwords don't match" />
+            ) : (
+              <ErrorDisplay message="" />
+            )}
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Checkbox
+                status={checked ? 'checked' : 'unchecked'}
+                onPress={() => {
+                  setChecked(!checked);
+                }}
+                color={'#3F51B5'}
+              />
+              <Text style={{fontSize: 12}}>
+                I accept the Terms and Conditions
+              </Text>
+            </View>
+
             <Pressable style={styles.btn} onPress={checkForm}>
               <Text style={styles.btnText}>Register</Text>
             </Pressable>
+
+            <Snackbar
+              visible={visible}
+              onDismiss={() => setVisible(false)}
+              style={{backgroundColor: '#7e88ce'}}>
+              User registered successfully!
+            </Snackbar>
           </View>
         </ImageBackground>
       </ImageBackground>
@@ -198,12 +257,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   form: {
-    height: 500,
+    height: 590,
     width: 250,
     alignSelf: 'center',
   },
   title: {
-    paddingVertical: 40,
+    paddingVertical: 35,
     color: '#3F51B5',
     fontSize: 20,
   },

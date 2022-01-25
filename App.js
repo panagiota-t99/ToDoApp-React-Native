@@ -47,7 +47,11 @@ const App = () => {
           <GlobalErrorHandler />
           <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>
-              <Stack.Screen name="Login" component={LoginComponent} />
+              <Stack.Screen
+                store={store}
+                name="Login"
+                component={LoginComponent}
+              />
               <Stack.Screen name="Register" component={RegisterComponent} />
               <Stack.Screen name="Menu" component={MenuComponent} />
             </Stack.Navigator>
