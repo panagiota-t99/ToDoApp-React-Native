@@ -20,6 +20,8 @@ import {
 } from '../services/dateService';
 import ItemComponent from './ItemComponent';
 import {SharedHeaderBar} from '../shared/SharedHeaderBar';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import ListItemsComponent from './ListItemsComponent';
 
 class HomeComponent extends Component {
   constructor(props) {
@@ -29,6 +31,8 @@ class HomeComponent extends Component {
       data: [],
       isLoading: true,
       newList: '',
+      selectedListId: 0,
+      selectedListName: '',
     };
   }
 
@@ -145,8 +149,14 @@ class HomeComponent extends Component {
                   activeOpacity={0.6}
                   underlayColor="#b4bbe4"
                   onPress={() => {
-                    this.getSelectedList(item.listid, item.listname);
-                  }}>
+                    this.setState({
+                      selectedListId: item.listid,
+                      selectedListName: item.listname,
+                    });
+                    this.RBSheet.open();
+                  }}
+                  //this.getSelectedList(item.listid, item.listname);
+                >
                   <View style={this.styles.listContainer}>
                     <ItemComponent
                       id={item.listid}
@@ -171,6 +181,27 @@ class HomeComponent extends Component {
               )}
             />
           )}
+          <RBSheet
+            ref={ref => {
+              this.RBSheet = ref;
+            }}
+            closeOnDragDown={true}
+            dragFromTopOnly={true}
+            closeOnPressMask={false}
+            height={400}
+            customStyles={{
+              wrapper: {
+                backgroundColor: 'transparent',
+              },
+              draggableIcon: {
+                backgroundColor: '#000',
+              },
+            }}>
+            <ListItemsComponent
+              listid={this.state.selectedListId}
+              listname={this.state.selectedListName}
+            />
+          </RBSheet>
         </View>
       </View>
     );

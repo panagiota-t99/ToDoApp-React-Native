@@ -28,27 +28,6 @@ import {setDrawerItem} from '../storage/actions/actions';
 import {getUsername} from '../services/userService';
 import {Avatar} from 'react-native-paper';
 
-// function MenuItem(props) {
-//   const navigation = useNavigation();
-//
-//   function navigate(route) {
-//     navigation.navigate(route);
-//   }
-//
-//   return (
-//     // <View>
-//     //   <TouchableHighlight
-//     //     underlayColor={'#6877ca'}
-//     //     onPress={() => navigate(props.label)}>
-//     //     <Text style={styles.label}> {props.label}</Text>
-//     //   </TouchableHighlight>
-//     // </View>
-//     <DrawerContentScrollView {...props}>
-//       <DrawerItem label={props.label} onPress={() => alert('hi')} />
-//     </DrawerContentScrollView>
-//   );
-// }
-
 function CustomDrawerContent(props) {
   const navigation = useNavigation();
   const role = props.role;
@@ -222,14 +201,5 @@ const MenuComponent = props => {
     </Drawer.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  // label: {
-  //   color: 'white',
-  //   paddingHorizontal: 10,
-  //   paddingVertical: 5,
-  //   fontSize: 18,
-  // },
-});
 
 export default MenuComponent;

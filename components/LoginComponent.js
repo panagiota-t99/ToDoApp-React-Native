@@ -16,8 +16,6 @@ import {
   setDrawerItem,
 } from '../storage/actions/actions';
 
-import RBSheet from 'react-native-raw-bottom-sheet';
-
 const LoginComponent = ({navigation}) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();

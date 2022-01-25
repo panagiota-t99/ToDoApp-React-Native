@@ -18,6 +18,8 @@ import DialogComponent from './DialogComponent';
 import ItemComponent from './ItemComponent';
 import {SharedHeaderBar} from '../shared/SharedHeaderBar';
 import {SharedBackHeaderBar} from '../shared/SharedBackHeaderBar';
+import {Appbar} from 'react-native-paper';
+import {ItemsHeaderBar} from './ItemsHeaderBar';
 
 class ListItemsComponent extends Component {
   constructor(props) {
@@ -25,8 +27,8 @@ class ListItemsComponent extends Component {
     this.state = {
       data: [],
       isLoading: true,
-      currentListId: this.props.route.params.listId,
-      currentListName: this.props.route.params.listName,
+      currentListId: this.props.listid,
+      currentListName: this.props.listname,
     };
   }
 
@@ -44,7 +46,6 @@ class ListItemsComponent extends Component {
     try {
       const response = await getListItems(this.state.currentListId);
       this.setState({data: formatDate(response)});
-      console.log(this.state.data);
     } catch (e) {
       throw e;
     }
@@ -83,19 +84,21 @@ class ListItemsComponent extends Component {
     const isLoading = this.state.isLoading;
 
     return (
-      <View>
-        <SharedBackHeaderBar color="white" title="Items" titleColor="black" />
-        <View>
-          <AddComponent
-            onAdd={this.onAddItem}
-            placeholder="Create a new item"
-            mode="item"
-            listId={this.state.currentListId}
-            listName={this.state.currentListName}
-          />
-          <Text style={this.styles.header}>
-            Items of list: {this.state.currentListName}
-          </Text>
+      <View style={this.styles.background}>
+        <ItemsHeaderBar
+          title={this.state.currentListName}
+          hasAdd={true}
+          listId={this.state.currentListId}
+          onAddSuccess={this.onAddItem}
+        />
+        <View style={this.styles.container}>
+          {/*<AddComponent*/}
+          {/*  onAdd={this.onAddItem}*/}
+          {/*  placeholder="Create a new item"*/}
+          {/*  mode="item"*/}
+          {/*  listId={this.state.currentListId}*/}
+          {/*  listName={this.state.currentListName}*/}
+          {/*/>*/}
           {isLoading ? (
             <ActivityIndicator />
           ) : data.length === 0 ? (
