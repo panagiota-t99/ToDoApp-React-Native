@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Image,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -13,12 +14,9 @@ import {
   getCurrentDate,
 } from '../services/dateService';
 import {getListItems} from '../services/userService';
-import AddComponent from './AddComponent';
 import DialogComponent from './DialogComponent';
 import ItemComponent from './ItemComponent';
-import {SharedHeaderBar} from '../shared/SharedHeaderBar';
-import {SharedBackHeaderBar} from '../shared/SharedBackHeaderBar';
-import {Appbar} from 'react-native-paper';
+import {Chip} from 'react-native-paper';
 import {ItemsHeaderBar} from './ItemsHeaderBar';
 
 class ListItemsComponent extends Component {
@@ -68,14 +66,23 @@ class ListItemsComponent extends Component {
   };
 
   onAddItem = (newItem, insertId) => {
-    console.log(newItem, insertId);
     const items = this.state.data;
     items.push({
       dateCreated: formatPartialDate(getCurrentDate()),
       dateModified: null,
       itemname: newItem,
       itemsid: insertId,
+      reminder: null,
     });
+    this.setState({data: items});
+  };
+
+  onSetReminder = (itemId, reminder) => {
+    const items = this.state.data;
+    const currentItemIndex = items.findIndex(item => item.itemsid === itemId);
+
+    items[currentItemIndex].reminder = reminder;
+
     this.setState({data: items});
   };
 
@@ -92,19 +99,30 @@ class ListItemsComponent extends Component {
           onAddSuccess={this.onAddItem}
         />
         <View style={this.styles.container}>
-          {/*<AddComponent*/}
-          {/*  onAdd={this.onAddItem}*/}
-          {/*  placeholder="Create a new item"*/}
-          {/*  mode="item"*/}
-          {/*  listId={this.state.currentListId}*/}
-          {/*  listName={this.state.currentListName}*/}
-          {/*/>*/}
           {isLoading ? (
-            <ActivityIndicator />
+            <ActivityIndicator
+              color="white"
+              size="large"
+              style={{marginTop: 50}}
+            />
           ) : data.length === 0 ? (
-            <Text style={{paddingHorizontal: 10, paddingVertical: 10}}>
-              There are currently no items in this list.
-            </Text>
+            <View>
+              <Text
+                style={{
+                  paddingHorizontal: 17,
+                  paddingVertical: 10,
+                }}>
+                There are currently no items in this list.
+              </Text>
+              <Image
+                source={require('../assets/empty_items.png')}
+                style={{
+                  resizeMode: 'contain',
+                  height: 250,
+                  alignSelf: 'center',
+                }}
+              />
+            </View>
           ) : (
             <FlatList
               data={data}
@@ -112,7 +130,6 @@ class ListItemsComponent extends Component {
               renderItem={({item}) => (
                 <View style={this.styles.listContainer}>
                   <ItemComponent
-                    id={item.itemsid}
                     name={item.itemname}
                     dateCreated={item.dateCreated}
                     dateModified={item.dateModified}
@@ -121,12 +138,17 @@ class ListItemsComponent extends Component {
                     <DialogComponent
                       onUpdateSuccess={this.onUpdateSuccess}
                       onDeleteSuccess={this.onDeleteSuccess}
+                      onAddReminder={this.onSetReminder}
+                      onDeleteReminder={this.onSetReminder}
                       title1={'Update Item Name'}
                       title2={'Delete Item: ' + item.itemname}
                       message1={'Enter the new item name.'}
                       message2="Are you sure you want to delete this item? You cannot undo this action."
                       id={item.itemsid}
+                      itemname={item.itemname}
                       listname={this.state.currentListName}
+                      reminder={item.reminder}
+                      mode="item"
                     />
                   </View>
                 </View>
@@ -141,15 +163,20 @@ class ListItemsComponent extends Component {
   styles = StyleSheet.create({
     background: {flex: 1, flexDirection: 'column'},
     container: {
-      backgroundColor: 'white',
       flex: 1,
       flexDirection: 'column',
     },
     listContainer: {
+      backgroundColor: 'white',
       paddingVertical: 10,
       paddingHorizontal: 10,
-      borderBottomColor: '#daddf1',
+      borderColor: '#9099d5',
       borderBottomWidth: 1,
+      marginHorizontal: 20,
+      borderWidth: 1,
+      borderRadius: 10,
+      marginVertical: 10,
+      elevation: 10,
     },
     header: {
       paddingLeft: 10,
@@ -158,8 +185,6 @@ class ListItemsComponent extends Component {
       color: 'black',
       borderBottomWidth: 1,
       borderBottomColor: '#daddf1',
-
-      // height: 50,
     },
   });
 }

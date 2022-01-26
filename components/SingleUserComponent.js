@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {deleteUser} from '../services/userService';
 import Dialog from 'react-native-dialog';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Avatar} from 'react-native-paper';
 
 const SingleUserComponent = props => {
   const navigation = useNavigation();
@@ -39,13 +40,31 @@ const SingleUserComponent = props => {
 
   return (
     <View>
-      <Text style={styles.userInfo}>
-        {props.firstname} {props.lastname}
-      </Text>
-      <Text>Id: {props.userid}</Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        {props.role === 'Admin' ? (
+          <Avatar.Icon
+            size={48}
+            icon="account-cog-outline"
+            color={'#3F51B5'}
+            style={{backgroundColor: 'transparent'}}
+          />
+        ) : (
+          <Avatar.Icon
+            size={48}
+            icon="account-outline"
+            color={'#3F51B5'}
+            style={{backgroundColor: 'transparent'}}
+          />
+        )}
+
+        <Text style={styles.userInfo}>
+          {props.firstname} {props.lastname}
+        </Text>
+      </View>
+
       <Text>Email: {props.email}</Text>
       <Text>Username: {props.username}</Text>
-      <Text>Role: {props.role}</Text>
+
       <View style={styles.iconContainer}>
         <Pressable
           onPress={() =>
@@ -99,10 +118,11 @@ const styles = StyleSheet.create({
   iconContainer: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
   },
   icon: {
-    marginVertical: 10,
-    marginRight: 20,
+    marginRight: 15,
   },
 });
 

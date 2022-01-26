@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  ImageBackground,
   StyleSheet,
   Text,
   View,
@@ -50,11 +51,27 @@ class LogsComponent extends Component {
       <View style={this.styles.container}>
         <SharedHeaderBar title="Logs" hasAdd={false} />
         {isLoading ? (
-          <ActivityIndicator />
+          <View style={{flex: 1, backgroundColor: 'white'}}>
+            <ActivityIndicator
+              color="#6877ca"
+              size="large"
+              style={{marginTop: 50}}
+            />
+          </View>
         ) : data.length === 0 ? (
-          <Text style={{paddingHorizontal: 10, paddingVertical: 10}}>
-            There are currently no logs.
-          </Text>
+          <ImageBackground
+            source={require('../assets/logs.png')}
+            style={this.styles.image}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: '#6877ca',
+                alignSelf: 'center',
+                marginTop: 400,
+              }}>
+              There are currently no logs
+            </Text>
+          </ImageBackground>
         ) : (
           <FlatList
             data={data}
@@ -89,15 +106,25 @@ class LogsComponent extends Component {
 
   styles = StyleSheet.create({
     container: {
-      backgroundColor: 'white',
-      flex: 2,
+      flex: 1,
       flexDirection: 'column',
+      backgroundColor: '#6877ca',
     },
     listContainer: {
+      backgroundColor: 'white',
       paddingVertical: 10,
       paddingHorizontal: 10,
-      borderBottomColor: '#daddf1',
+      borderColor: '#9099d5',
       borderBottomWidth: 1,
+      marginHorizontal: 20,
+      borderWidth: 1,
+      borderRadius: 10,
+      marginVertical: 10,
+      elevation: 10,
+    },
+    image: {
+      flex: 1,
+      width: '100%',
     },
   });
 }

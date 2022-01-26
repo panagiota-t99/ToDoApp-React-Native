@@ -37,7 +37,7 @@ function CustomDrawerContent(props) {
     try {
       const res = await getUsername();
       if (res) {
-        setUsername(res[0].userName);
+        setUsername(res[0].username);
       }
     } catch (e) {
       alert(e);
@@ -127,6 +127,20 @@ function CustomDrawerContent(props) {
     </DrawerContentScrollView>
   ) : (
     <DrawerContentScrollView {...props}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <Avatar.Icon
+          size={48}
+          icon="account-circle-outline"
+          color={'#3F51B5'}
+          style={{backgroundColor: 'transparent'}}
+        />
+        <Text>{username}</Text>
+      </View>
       <DrawerItem
         label={'Home'}
         focused={isFocused('Home')}
@@ -171,12 +185,20 @@ const MenuComponent = props => {
       />
       <Drawer.Screen
         name="Logs"
-        options={{headerShown: false, headerTransparent: true}}
+        options={{
+          headerShown: false,
+          headerTransparent: true,
+          unmountOnBlur: true,
+        }}
         component={LogsComponent}
       />
       <Drawer.Screen
         name="Users"
-        options={{headerShown: false, headerTransparent: true}}
+        options={{
+          headerShown: false,
+          headerTransparent: true,
+          unmountOnBlur: true,
+        }}
         component={UsersComponent}
       />
       <Drawer.Screen

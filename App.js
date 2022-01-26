@@ -30,7 +30,6 @@ const App = () => {
       const value = await AsyncStorage.getItem('token');
       if (value !== null) {
         setToken(value);
-        //navigation.navigate('Menu');
       }
     } catch (e) {
       alert(e);
@@ -63,17 +62,3 @@ const App = () => {
 };
 
 export default App;
-
-// {token === null ? (
-//   <Stack.Screen
-//     name="ToDoApp"
-//     component={LoginComponent}
-//     options={{headerShown: false}}
-//   />
-// ) : (
-//   <Stack.Screen
-//     name="Home"
-//     component={HomeComponent}
-//     options={{headerBackVisible: false}}
-//   />
-// )}

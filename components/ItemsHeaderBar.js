@@ -22,7 +22,6 @@ export const ItemsHeaderBar = props => {
     if (newElement) {
       let res;
       try {
-        console.log(props.listId);
         res = await addItemToList(props.listId, props.title, newElement);
         if (res) {
           props.onAddSuccess(newElement, res.insertId);
@@ -34,9 +33,12 @@ export const ItemsHeaderBar = props => {
     }
   }
 
-  return props.hasAdd ? (
-    <Appbar style={styles.appBar}>
-      <Appbar.Content title={props.title} subtitle={''} />
+  return (
+    <Appbar.Header style={styles.appBar}>
+      <Appbar.Content
+        title={'Items of ' + props.title}
+        titleStyle={{fontSize: 18}}
+      />
       <Appbar.Action icon="plus" onPress={() => setVisible(true)} />
 
       <Dialog.Container visible={visible}>
@@ -53,54 +55,20 @@ export const ItemsHeaderBar = props => {
         />
         <Dialog.Button
           label="Add"
-          onPress={() => onAdd().then(() => setVisible(false))}
+          onPress={() => {
+            hideDialog();
+            onAdd();
+          }}
         />
       </Dialog.Container>
-
-      {/*<Portal>*/}
-      {/*  <Dialog visible={visible} onDismiss={hideDialog}>*/}
-      {/*    <Dialog.Title>Create a new list</Dialog.Title>*/}
-      {/*    <Dialog.Content>*/}
-      {/*      <TextInput*/}
-      {/*        placeholder={'Start typing'}*/}
-      {/*        onChangeText={value => setNewElement(value)}*/}
-      {/*      />*/}
-      {/*    </Dialog.Content>*/}
-      {/*    <Dialog.Actions>*/}
-      {/*      <Pressable*/}
-      {/*        onPress={() => {*/}
-      {/*          hideDialog();*/}
-      {/*        }}>*/}
-      {/*        <Text style={styles.btn}>Cancel</Text>*/}
-      {/*      </Pressable>*/}
-      {/*      <Pressable*/}
-      {/*        onPress={() => {*/}
-      {/*          onAdd().then(r => setVisible(false));*/}
-      {/*        }}>*/}
-      {/*        <Text style={styles.btn}>Add</Text>*/}
-      {/*      </Pressable>*/}
-      {/*    </Dialog.Actions>*/}
-      {/*  </Dialog>*/}
-      {/*</Portal>*/}
-    </Appbar>
-  ) : (
-    <Appbar style={styles.appBar}>
-      <Appbar.Action icon="menu" onPress={() => toggleDrawer()} />
-      <Appbar.Content title={props.title} subtitle={''} />
-    </Appbar>
+    </Appbar.Header>
   );
 };
 
 const styles = StyleSheet.create({
   appBar: {
-    backgroundColor: 'white',
-  },
-  btn: {
-    backgroundColor: '#3F51B5',
-    color: 'white',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 4,
-    marginHorizontal: 5,
+    backgroundColor: 'transparent',
+    elevation: 0,
+    height: 35,
   },
 });

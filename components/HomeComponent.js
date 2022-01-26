@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  SafeAreaView,
-  ScrollView,
+  ImageBackground,
+  Pressable,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -21,7 +21,10 @@ import ItemComponent from './ItemComponent';
 import {SharedHeaderBar} from '../shared/SharedHeaderBar';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import ListItemsComponent from './ListItemsComponent';
-import {setDrawerItem} from '../storage/actions/actions';
+
+// const mapStateToProps = state => ({});
+//
+// const mapDispatchToProps = () => {};
 
 class HomeComponent extends Component {
   constructor(props) {
@@ -131,17 +134,34 @@ class HomeComponent extends Component {
         />
         <View style={this.styles.container}>
           {isLoading ? (
-            <ActivityIndicator />
+            <View style={{flex: 1, backgroundColor: 'white'}}>
+              <ActivityIndicator
+                color="#6877ca"
+                size="large"
+                style={{marginTop: 50}}
+              />
+            </View>
           ) : data.length === 0 ? (
-            <Text style={{paddingHorizontal: 10, paddingVertical: 10}}>
-              There are currently no lists.
-            </Text>
+            <ImageBackground
+              source={require('../assets/empty.png')}
+              style={this.styles.image}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: '#6877ca',
+                  alignSelf: 'center',
+                  marginTop: 400,
+                }}>
+                There are currently no lists
+              </Text>
+            </ImageBackground>
           ) : (
             <FlatList
               data={data}
               keyExtractor={({listid}) => listid}
               renderItem={({item}) => (
                 <TouchableHighlight
+                  style={this.styles.listContainer}
                   activeOpacity={0.6}
                   underlayColor="#b4bbe4"
                   onPress={() => {
@@ -151,25 +171,24 @@ class HomeComponent extends Component {
                     });
                     this.RBSheet.open();
                   }}>
-                  <View style={this.styles.listContainer}>
+                  <View>
                     <ItemComponent
                       id={item.listid}
                       name={item.listname}
                       dateCreated={item.dateCreated}
                       dateModified={item.dateModified}
                     />
-                    <View>
-                      <DialogComponent
-                        onUpdateSuccess={this.onUpdateSuccess}
-                        onDeleteSuccess={this.onDeleteSuccess}
-                        title1={'Update List Name'}
-                        title2={'Delete List: ' + item.listname}
-                        message1={'Enter the new list name.'}
-                        message2="Are you sure you want to delete this list? You cannot undo this action."
-                        id={item.listid}
-                        mode="list"
-                      />
-                    </View>
+                    <DialogComponent
+                      onUpdateSuccess={this.onUpdateSuccess}
+                      onDeleteSuccess={this.onDeleteSuccess}
+                      title1={'Update List Name'}
+                      title2={'Delete List: ' + item.listname}
+                      message1={'Enter the new list name.'}
+                      message2="Are you sure you want to delete this list? You cannot undo this action."
+                      id={item.listid}
+                      listname={item.listname}
+                      mode="list"
+                    />
                   </View>
                 </TouchableHighlight>
               )}
@@ -183,12 +202,21 @@ class HomeComponent extends Component {
             dragFromTopOnly={true}
             closeOnPressMask={false}
             height={400}
+            animationType={'slide'}
             customStyles={{
               wrapper: {
                 backgroundColor: 'transparent',
               },
+              container: {
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                borderColor: '#384394',
+                borderTopWidth: 2,
+                borderLeftWidth: 1,
+                borderRightWidth: 1,
+              },
               draggableIcon: {
-                backgroundColor: '#000',
+                width: 40,
               },
             }}>
             <ListItemsComponent
@@ -202,17 +230,27 @@ class HomeComponent extends Component {
   }
 
   styles = StyleSheet.create({
-    background: {backgroundColor: '#daddf1', flex: 1, flexDirection: 'column'},
+    background: {flex: 1, flexDirection: 'column'},
     container: {
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: 'white',
+      backgroundColor: '#6877ca',
     },
     listContainer: {
+      backgroundColor: 'white',
       paddingVertical: 10,
       paddingHorizontal: 10,
-      borderBottomColor: '#daddf1',
+      borderColor: '#4255bd',
       borderBottomWidth: 1,
+      marginHorizontal: 20,
+      borderWidth: 1,
+      borderRadius: 10,
+      marginVertical: 10,
+      elevation: 10,
+    },
+    image: {
+      flex: 1,
+      width: '100%',
     },
   });
 }

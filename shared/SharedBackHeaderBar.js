@@ -14,13 +14,12 @@ import {DRAWER_ITEM, ERROR_HANDLER, LOADING_CHANGE} from '../storage/constants';
 
 const windowWidth = Dimensions.get('window').width;
 
-// @ts-ignore
 export const SharedBackHeaderBar = ({title}) => {
   const navigation = useNavigation();
 
   const goBack = () => {
-    navigation.goBack();
-    //navigation.navigate('Users');
+    // navigation.goBack();
+    navigation.navigate('Users');
   };
 
   return (

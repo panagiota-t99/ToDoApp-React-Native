@@ -53,35 +53,12 @@ export const SharedHeaderBar = props => {
         />
         <Dialog.Button
           label="Add"
-          onPress={() => onAdd().then(() => setVisible(false))}
+          onPress={() => {
+            hideDialog();
+            onAdd();
+          }}
         />
       </Dialog.Container>
-
-      {/*<Portal>*/}
-      {/*  <Dialog visible={visible} onDismiss={hideDialog}>*/}
-      {/*    <Dialog.Title>Create a new list</Dialog.Title>*/}
-      {/*    <Dialog.Content>*/}
-      {/*      <TextInput*/}
-      {/*        placeholder={'Start typing'}*/}
-      {/*        onChangeText={value => setNewElement(value)}*/}
-      {/*      />*/}
-      {/*    </Dialog.Content>*/}
-      {/*    <Dialog.Actions>*/}
-      {/*      <Pressable*/}
-      {/*        onPress={() => {*/}
-      {/*          hideDialog();*/}
-      {/*        }}>*/}
-      {/*        <Text style={styles.btn}>Cancel</Text>*/}
-      {/*      </Pressable>*/}
-      {/*      <Pressable*/}
-      {/*        onPress={() => {*/}
-      {/*          onAdd().then(r => setVisible(false));*/}
-      {/*        }}>*/}
-      {/*        <Text style={styles.btn}>Add</Text>*/}
-      {/*      </Pressable>*/}
-      {/*    </Dialog.Actions>*/}
-      {/*  </Dialog>*/}
-      {/*</Portal>*/}
     </Appbar>
   ) : (
     <Appbar style={styles.appBar}>
@@ -94,6 +71,7 @@ export const SharedHeaderBar = props => {
 const styles = StyleSheet.create({
   appBar: {
     backgroundColor: 'white',
+    height: 50,
   },
   btn: {
     backgroundColor: '#3F51B5',

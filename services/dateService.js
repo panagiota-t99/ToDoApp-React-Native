@@ -17,13 +17,31 @@ const formatPartialDate = date => {
   return newDate[2] + ' ' + newDate[1] + ' ' + newDate[3];
 };
 
+const formatReminderDate = date => {
+  let splitDate = new Date(date).toString().split(' ');
+  let newDate =
+    splitDate[2] +
+    ' ' +
+    splitDate[1] +
+    ' ' +
+    splitDate[3] +
+    ' at ' +
+    splitDate[4].split(':')[0] +
+    ':' +
+    splitDate[4].split(':')[1];
+  return newDate;
+};
+
 const formatDate = list => {
   for (let item of list) {
     item.dateCreated = formatPartialDate(item.dateCreated);
-    if (item.dateModified == null) {
+    if (item.dateModified === null) {
       item.dateModified = '-';
     } else {
       item.dateModified = formatPartialDate(item.dateModified);
+    }
+    if (item.reminder != null) {
+      item.reminder = formatReminderDate(item.reminder);
     }
   }
   return list;

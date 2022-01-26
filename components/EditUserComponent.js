@@ -36,56 +36,75 @@ const EditUserComponent = props => {
   };
 
   return (
-    <View>
+    <View style={styles.background}>
       <SharedBackHeaderBar title="User Information" />
-      <Text style={styles.header}>Edit user information</Text>
+      <View style={styles.container}>
+        <Text style={styles.label}>First Name</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setFirstname}
+          value={firstname}
+        />
 
-      <Text style={styles.label}>First Name</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setFirstname}
-        value={firstname}
-      />
+        <Text style={styles.label}>Last Name</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setLastname}
+          value={lastname}
+        />
+        <Text style={styles.label}>Email</Text>
+        <TextInput style={styles.input} onChangeText={setEmail} value={email} />
 
-      <Text style={styles.label}>Last Name</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setLastname}
-        value={lastname}
-      />
-      <Text style={styles.label}>Email</Text>
-      <TextInput style={styles.input} onChangeText={setEmail} value={email} />
+        <Text style={styles.label}>Username</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setUsername}
+          value={username}
+        />
 
-      <Text style={styles.label}>Username</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setUsername}
-        value={username}
-      />
+        <Text style={styles.label}>Role</Text>
+        <Picker
+          style={{width: 150, marginLeft: 5}}
+          mode={'dropdown'}
+          selectedValue={role}
+          onValueChange={(itemValue, itemIndex) => setRole(itemValue)}>
+          <Picker.Item label="Admin" value="Admin" />
+          <Picker.Item label="User" value="User" />
+        </Picker>
 
-      <Text style={styles.label}>Role</Text>
-      <Picker
-        selectedValue={role}
-        onValueChange={(itemValue, itemIndex) => setRole(itemValue)}>
-        <Picker.Item label="Admin" value="Admin" />
-        <Picker.Item label="User" value="User" />
-      </Picker>
-
-      <Pressable style={styles.btn} onPress={updateUserInfo}>
-        <Text style={styles.btnText}>Update</Text>
-      </Pressable>
+        <Pressable style={styles.btn} onPress={updateUserInfo}>
+          <Text style={styles.btnText}>Update</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#6877ca',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+
+    marginHorizontal: 40,
+    marginVertical: 40,
+    backgroundColor: 'white',
+
+    borderRadius: 10,
+  },
   header: {
     color: '#3F51B5',
     fontSize: 16,
     paddingLeft: 10,
     paddingVertical: 10,
   },
-  label: {paddingLeft: 10},
+  label: {paddingLeft: 20},
 
   input: {
     borderBottomColor: '#daddf1',
@@ -93,15 +112,16 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
     width: 200,
     marginBottom: 25,
-    marginLeft: 10,
+    marginLeft: 20,
   },
   btn: {
     alignSelf: 'center',
     paddingVertical: 8,
     width: 100,
-    borderRadius: 3,
+    borderRadius: 5,
     elevation: 2,
     backgroundColor: '#3F51B5',
+    marginTop: 10,
   },
   btnText: {
     color: 'white',

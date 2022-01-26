@@ -81,9 +81,9 @@ async function getUsername() {
   }
 }
 
-async function deleteUserList(listid) {
+async function deleteUserList(listid, listname) {
   try {
-    return await deleteRequest('lists/list/' + listid);
+    return await deleteRequest('lists/list/' + listid + '/' + listname + '/');
   } catch (e) {
     throw e;
   }
@@ -113,9 +113,11 @@ async function addItemToList(id, listname, itemname) {
   }
 }
 
-async function deleteListItem(itemsid) {
+async function deleteListItem(itemsid, itemname) {
   try {
-    return await deleteRequest('lists/list/item/' + itemsid);
+    return await deleteRequest(
+      'lists/list/item/' + itemsid + '/' + itemname + '/',
+    );
   } catch (e) {
     throw e;
   }
@@ -136,6 +138,27 @@ async function updateListItem(itemsid, itemname, dateModified, listname) {
       itemname,
       dateModified,
       listname,
+    });
+  } catch (e) {
+    throw e;
+  }
+}
+
+async function addReminder(reminder, itemsid) {
+  try {
+    return await putRequest('lists/item/reminder', {
+      reminder,
+      itemsid,
+    });
+  } catch (e) {
+    throw e;
+  }
+}
+
+async function deleteReminder(itemsid) {
+  try {
+    return await putRequest('lists/list/item/delete/reminder', {
+      itemsid,
     });
   } catch (e) {
     throw e;
@@ -181,4 +204,6 @@ module.exports = {
   deleteUser,
   register,
   getUsername,
+  addReminder,
+  deleteReminder,
 };

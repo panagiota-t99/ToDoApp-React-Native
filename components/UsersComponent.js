@@ -84,17 +84,23 @@ class UsersComponent extends Component {
   }
 
   styles = StyleSheet.create({
-    background: {backgroundColor: '#daddf1', flex: 1, flexDirection: 'column'},
+    background: {flex: 1, flexDirection: 'column'},
     container: {
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: 'white',
+      backgroundColor: '#6877ca',
     },
     listContainer: {
+      backgroundColor: 'white',
       paddingVertical: 10,
       paddingHorizontal: 10,
-      borderBottomColor: '#daddf1',
+      borderColor: '#9099d5',
       borderBottomWidth: 1,
+      marginHorizontal: 20,
+      borderWidth: 1,
+      borderRadius: 10,
+      marginVertical: 10,
+      elevation: 10,
     },
   });
 }
