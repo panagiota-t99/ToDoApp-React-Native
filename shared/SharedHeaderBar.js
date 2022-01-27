@@ -46,12 +46,14 @@ export const SharedHeaderBar = props => {
           onChangeText={value => setNewElement(value)}
         />
         <Dialog.Button
+          style={styles.btn}
           label="Cancel"
           onPress={() => {
             hideDialog();
           }}
         />
         <Dialog.Button
+          style={styles.btn}
           label="Add"
           onPress={() => {
             hideDialog();
@@ -74,11 +76,6 @@ const styles = StyleSheet.create({
     height: 50,
   },
   btn: {
-    backgroundColor: '#3F51B5',
-    color: 'white',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 4,
-    marginHorizontal: 5,
+    //color: '#3F51B5',
   },
 });

@@ -67,7 +67,7 @@ class LogsComponent extends Component {
                 fontSize: 16,
                 color: '#6877ca',
                 alignSelf: 'center',
-                marginTop: 400,
+                marginTop: 450,
               }}>
               There are currently no logs
             </Text>

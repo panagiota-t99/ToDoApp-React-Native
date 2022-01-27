@@ -181,7 +181,11 @@ class DialogComponent extends Component {
           </Pressable>
         </View>
 
-        <Dialog.Container visible={this.state.visibleUpdate}>
+        <Dialog.Container
+          visible={this.state.visibleUpdate}
+          onBackdropPress={() => {
+            this.setState({visibleUpdate: false});
+          }}>
           <Dialog.Title>{this.props.title1}</Dialog.Title>
           <Dialog.Description>{this.props.message1}</Dialog.Description>
           <Dialog.Input
@@ -189,20 +193,31 @@ class DialogComponent extends Component {
               this.state.name = value;
             }}
           />
+
           <Dialog.Button
+            style={this.styles.btn}
+            label="Update"
+            onPress={this.handleUpdate}
+          />
+          <Dialog.Button
+            style={this.styles.btn}
             label="Cancel"
             onPress={() => {
               this.handleCancel(1);
             }}
           />
-          <Dialog.Button label="Update" onPress={this.handleUpdate} />
         </Dialog.Container>
 
         <Dialog.Container visible={this.state.visibleDelete}>
           <Dialog.Title>{this.props.title2}</Dialog.Title>
           <Dialog.Description>{this.props.message2}</Dialog.Description>
-          <Dialog.Button label="Delete" onPress={this.handleDelete} />
           <Dialog.Button
+            style={this.styles.btn}
+            label="Delete"
+            onPress={this.handleDelete}
+          />
+          <Dialog.Button
+            style={this.styles.btn}
             label="Cancel"
             onPress={() => {
               this.handleCancel(2);
@@ -228,8 +243,13 @@ class DialogComponent extends Component {
           <Dialog.Description>
             Are you sure you want to delete this reminder?
           </Dialog.Description>
-          <Dialog.Button label="Delete" onPress={this.handleDeleteReminder} />
           <Dialog.Button
+            style={this.styles.btn}
+            label="Delete"
+            onPress={this.handleDeleteReminder}
+          />
+          <Dialog.Button
+            style={this.styles.btn}
             label="Cancel"
             onPress={() => {
               this.handleCancel(4);
@@ -250,6 +270,9 @@ class DialogComponent extends Component {
     },
     icon: {
       marginRight: 15,
+    },
+    btn: {
+      //color: 'dodgerblue',
     },
   });
 }

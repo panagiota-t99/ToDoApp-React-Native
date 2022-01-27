@@ -48,12 +48,14 @@ export const ItemsHeaderBar = props => {
           onChangeText={value => setNewElement(value)}
         />
         <Dialog.Button
+          style={styles.btn}
           label="Cancel"
           onPress={() => {
             hideDialog();
           }}
         />
         <Dialog.Button
+          style={styles.btn}
           label="Add"
           onPress={() => {
             hideDialog();
@@ -70,5 +72,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     elevation: 0,
     height: 35,
+  },
+  btn: {
+    //color: '#3F51B5',
   },
 });

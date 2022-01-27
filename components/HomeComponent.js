@@ -4,6 +4,7 @@ import {
   FlatList,
   ImageBackground,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -114,7 +115,7 @@ class HomeComponent extends Component {
     const lists = this.state.data;
     lists.push({
       dateCreated: formatPartialDate(getCurrentDate()),
-      dateModified: null,
+      dateModified: '-',
       listname: newList,
       listid: insertId,
     });

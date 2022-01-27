@@ -69,7 +69,7 @@ class ListItemsComponent extends Component {
     const items = this.state.data;
     items.push({
       dateCreated: formatPartialDate(getCurrentDate()),
-      dateModified: null,
+      dateModified: '-',
       itemname: newItem,
       itemsid: insertId,
       reminder: null,
